@@ -45,5 +45,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.openjfx:javafx-controls:11.0.2"
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

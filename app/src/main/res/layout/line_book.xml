@@ -3,40 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/customborder">
 
     <LinearLayout
         android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/illustration"
             android:layout_width="wrap_content"
+            android:layout_gravity="start"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:singleLine="true" />
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <Button
-            android:id="@+id/linkToBook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

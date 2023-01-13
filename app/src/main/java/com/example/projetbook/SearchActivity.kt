@@ -42,18 +42,17 @@ class SearchActivity : AppCompatActivity() {
         for (i in 0 until jsonArray.length()) {
             val imagelinks =
                 jsonArray.getJSONObject(i).getJSONObject("volumeInfo").optJSONObject("imageLinks")
-            val image = if (imagelinks == null) "" else imagelinks.getString("smallThumbnail")
-            val description =
+            val image = if (imagelinks == null) "" else imagelinks.getString("smallThumbnail");
+            /*val description =
                 jsonArray.getJSONObject(i).getJSONObject("volumeInfo").optString("description")
-                    ?: ""
+                    ?: ""*/
 
             books.add(
                 BookType(
                     i.toLong(),
                     jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("title"),
-                    description,
-                    image,
-                    jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink")
+                    image
+                    //jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink")
                 )
             )
         }
