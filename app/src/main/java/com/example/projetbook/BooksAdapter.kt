@@ -20,10 +20,14 @@ class BooksAdapter(private val dataset: Array<BookType>, val listener: (BookType
         {
             itemView.findViewById<TextView>(R.id.title).text = book.title;
             itemView.findViewById<TextView>(R.id.description).text = book.description
-            Glide.with(context)
-                .load(book.illustration)
-                .into(itemView.findViewById(R.id.illustration));
-            itemView.findViewById<Button>(R.id.button).setOnClickListener {
+            if (book.illustration.isEmpty()) {
+                itemView.findViewById<ImageView>(R.id.illustration).setImageResource(R.mipmap.book_sample)
+            } else {
+                Glide.with(context)
+                    .load(book.illustration)
+                    .into(itemView.findViewById(R.id.illustration));
+            }
+            itemView.findViewById<Button>(R.id.linkToBook).setOnClickListener {
                 val browserIntent =
                     Intent(Intent.ACTION_VIEW, Uri.parse(book.link))
                 context.startActivity(browserIntent)
@@ -35,7 +39,7 @@ class BooksAdapter(private val dataset: Array<BookType>, val listener: (BookType
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.results_search, viewGroup, false)
+            .inflate(R.layout.line_book, viewGroup, false)
         return ViewHolder(view);
     }
 

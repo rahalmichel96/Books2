@@ -1,15 +1,12 @@
 package com.example.projetbook
 
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import org.json.JSONObject
 import org.json.JSONTokener
-import java.net.URL
 
 class SearchActivity : AppCompatActivity() {
     lateinit var monRecycler: RecyclerView
@@ -26,6 +23,7 @@ class SearchActivity : AppCompatActivity() {
         val booksAdapter : BooksAdapter = BooksAdapter(books, { book -> bookOnclick() })
 
         val recyclerView : RecyclerView = findViewById(R.id.recycler_view)
+        recyclerView.layoutManager  = LinearLayoutManager(this)
         recyclerView.adapter = booksAdapter
 
     }
@@ -42,12 +40,22 @@ class SearchActivity : AppCompatActivity() {
         val books = ArrayList<BookType>()
 
         for (i in 0 until jsonArray.length()) {
-            books.add(BookType(
-                i.toLong(),
-                jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("title"),
-                jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("description"),
-                jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks").getString("smallThumbnail"),
-                jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("selflink")))
+            val imagelinks =
+                jsonArray.getJSONObject(i).getJSONObject("volumeInfo").optJSONObject("imageLinks")
+            val image = if (imagelinks == null) "" else imagelinks.getString("smallThumbnail")
+            val description =
+                jsonArray.getJSONObject(i).getJSONObject("volumeInfo").optString("description")
+                    ?: ""
+
+            books.add(
+                BookType(
+                    i.toLong(),
+                    jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("title"),
+                    description,
+                    image,
+                    jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink")
+                )
+            )
         }
 
 
