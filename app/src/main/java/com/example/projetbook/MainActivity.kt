@@ -26,9 +26,20 @@ class MainActivity : AppCompatActivity() {
             val search_field = findViewById<TextInputEditText>(R.id.search_field);
             val text = search_field.text.toString();
 
-            val intent = Intent(this@MainActivity, SearchActivity::class.java)
-            intent.putExtra("key", text)
-            startActivity(intent)
+            val client : AsyncHttpClient = AsyncHttpClient();
+            client.get("https://www.googleapis.com/books/v1/volumes?q=$text", object : JsonHttpResponseHandler() {
+                override fun onSuccess(
+                    statusCode: Int,
+                    headers: Array<out Header>?,
+                    response: JSONObject?
+                ) {
+                    val jsonresponse = response.toString();
+                    val intent = Intent(this@MainActivity, SearchActivity::class.java)
+                    intent.putExtra("results", jsonresponse)
+                    startActivity(intent)
+                }
+
+            })
         }
     }
 
