@@ -16,8 +16,6 @@ import java.util.concurrent.Executors
 class BooksAdapter(private val dataset: Array<BookType>, val listener: (BookType) -> Unit, val context: Context) :
     RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
 
-
-
     class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         fun bind(book: BookType, listener: (BookType) -> Unit) = with(itemView)
         {
