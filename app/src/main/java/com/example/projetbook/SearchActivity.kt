@@ -1,5 +1,7 @@
 package com.example.projetbook
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -48,7 +50,7 @@ class SearchActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView!!.layoutManager  = LinearLayoutManager(this@SearchActivity)
-        recyclerView!!.adapter = BooksAdapter(books.toTypedArray(), {book -> bookOnclick()}, this@SearchActivity)
+        recyclerView!!.adapter = BooksAdapter(books.toTypedArray(), {book -> bookOnclick(book)}, this@SearchActivity)
 
         getResults(page, limit)
 
@@ -66,8 +68,10 @@ class SearchActivity : AppCompatActivity() {
         })
     }
 
-    private fun bookOnclick() {
-        TODO("Not yet implemented")
+    private fun bookOnclick(book : BookType) {
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, Uri.parse(book.link))
+        startActivity(browserIntent)
     }
 
     fun getResults(page : Int, limit : Int) {
@@ -109,14 +113,14 @@ class SearchActivity : AppCompatActivity() {
                             BookType(
                                 i.toLong(),
                                 jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("title"),
-                                image
-                                //jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink")
+                                image,
+                                jsonArray.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink")
                             )
                         )
                     }
 
 
-                    bookAdapter = BooksAdapter(books.toTypedArray(), { book -> bookOnclick() }, this@SearchActivity)
+                    bookAdapter = BooksAdapter(books.toTypedArray(), { book -> bookOnclick(book) }, this@SearchActivity)
                     recyclerView!!.layoutManager  = LinearLayoutManager(this@SearchActivity)
                     recyclerView!!.adapter = bookAdapter
                     bookAdapter!!.notifyDataSetChanged()
