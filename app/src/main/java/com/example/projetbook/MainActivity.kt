@@ -21,14 +21,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btn_search = findViewById<Button>(R.id.button4);
+        val btn_fav = findViewById<Button>(R.id.button_favoris);
 
         btn_search.setOnClickListener {
             val search_field = findViewById<TextInputEditText>(R.id.search_field);
             val text = search_field.text.toString();
 
-            val intent = Intent(this@MainActivity, SearchActivity::class.java)
-            intent.putExtra("key", text)
-            startActivity(intent)
+            val client : AsyncHttpClient = AsyncHttpClient();
+            client.get("https://www.googleapis.com/books/v1/volumes?q=$text", object : JsonHttpResponseHandler() {
+                override fun onSuccess(
+                    statusCode: Int,
+                    headers: Array<out Header>?,
+                    response: JSONObject?
+                ) {
+                    val jsonresponse = response.toString();
+                    val intent = Intent(this@MainActivity, SearchActivity::class.java)
+                    intent.putExtra("results", jsonresponse)
+                    startActivity(intent)
+                }
+
+            })
+        }
+        btn_fav.setOnClickListener {
+            val id_book = "ox9BiuVKM1cC"
+
+            val client : AsyncHttpClient = AsyncHttpClient();
+            client.get("https://www.googleapis.com/books/v1/volumes?q=$id_book", object : JsonHttpResponseHandler() {
+                override fun onSuccess(
+                    statusCode: Int,
+                    headers: Array<out Header>?,
+                    response: JSONObject?
+                ) {
+                    val jsonresponse = response.toString();
+                    val intent = Intent(this@MainActivity, Favoris_ActivityActivity::class.java)
+                    intent.putExtra("results", jsonresponse)
+                    startActivity(intent)
+                }
+            })
         }
     }
 
